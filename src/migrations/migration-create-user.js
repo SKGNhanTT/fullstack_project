@@ -29,7 +29,7 @@ module.exports = {
             roleId: {
                 type: Sequelize.STRING,
             },
-            phoneNymber: {
+            phoneNumber: {
                 type: Sequelize.STRING,
             },
             positionId: {
