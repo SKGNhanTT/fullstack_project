@@ -53,6 +53,14 @@ let putCRUD = async (req, res) => {
     });
 };
 
+let deleteCRUD = async (req, res) => {
+    let userId = req.query.id;
+    if (userId) {
+        await CRUDService.deleteUserById(userId);
+    }
+    return res.send('delete success!');
+};
+
 module.exports = {
     getHomePage,
     getCRUD,
@@ -60,4 +68,5 @@ module.exports = {
     displayCRUD,
     editCRUD,
     putCRUD,
+    deleteCRUD,
 };

@@ -40,7 +40,7 @@
                 <td><%= data[i].address %></td>
                 <td>
                     <a href="edit-crud?id=<%= data[i].id %>">Edit</a>
-                    <button type="button">Delete</button>
+                    <a href="delete-crud?id=<%= data[i].id %>" type="button">Delete</a>
                 </td>
             </tr>
             <% } %>
