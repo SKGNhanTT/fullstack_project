@@ -1,3 +1,4 @@
+// import { all } from 'sequelize/types/lib/operators';
 import db from '../models/index';
 import bcrypt from 'bcryptjs';
 
@@ -57,4 +58,29 @@ let checkUserEmail = (userEmail) => {
         }
     });
 };
-module.exports = { handleUserLogin };
+
+let getAllCodeService = (typeInput) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!typeInput) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameter',
+                });
+            } else {
+                let res = {};
+                let allCode = await db.Allcode.findAll({
+                    where: { type: typeInput },
+                });
+                res.errCode = 0;
+                res.data = allCode;
+                console.log('data==========', res);
+                resolve(res);
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+module.exports = { handleUserLogin, getAllCodeService };
