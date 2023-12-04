@@ -23,7 +23,13 @@ let handleUserLogin = (email, password) => {
             if (isExist) {
                 let user = await db.User.findOne({
                     where: { email },
-                    attributes: ['email', 'roleId', 'password'],
+                    attributes: [
+                        'email',
+                        'roleId',
+                        'password',
+                        'firstName',
+                        'lastName',
+                    ],
                     raw: true,
                 });
                 if (user) {
@@ -209,7 +215,6 @@ let getAllCodeService = (typeInput) => {
                 });
                 res.errCode = 0;
                 res.data = allCode;
-                console.log('data==========', res);
                 resolve(res);
             }
         } catch (error) {
