@@ -11,8 +11,6 @@ let handleLogin = async (req, res) => {
     }
 
     let userData = await userService.handleUserLogin(email, password);
-
-    console.log(email, password);
     return res.status(200).json({
         errCode: userData.errCode,
         message: userData.errMessage,
@@ -40,7 +38,6 @@ let handleGetAllUser = async (req, res) => {
 };
 
 let handleCreateNewUser = async (req, res) => {
-    console.log('data from req', req.body);
     let message = await userService.createNewUser(req.body);
     return res.status(200).json(message);
 };
@@ -69,7 +66,6 @@ let getAllCode = async (req, res) => {
             return res.status(200).json(data);
         }, 3000);
     } catch (e) {
-        console.log('Get all code: ', e);
         return res.status(200).json({
             errCode: -1,
             errMessage: 'Error from server',

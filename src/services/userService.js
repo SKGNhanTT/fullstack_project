@@ -106,12 +106,11 @@ let getAllUser = (userId) => {
     });
 };
 
-let createNewUser = (data) => {
-    console.log(data);
+let createNewUser = ({ data }) => {
     return new Promise(async (resolve, reject) => {
         try {
             // check email exit
-            let check = await checkUserEmail(data.data.email);
+            let check = await checkUserEmail(data.email);
             if (check) {
                 resolve({
                     errCode: 1,
@@ -120,18 +119,19 @@ let createNewUser = (data) => {
                 });
             } else {
                 let hashPasswordFromBcrypt = await hashUsePassword(
-                    data.data.password
+                    data.password
                 );
                 await db.User.create({
-                    email: data.data.email,
+                    email: data.email,
                     password: hashPasswordFromBcrypt,
-                    firstName: data.data.firstName,
-                    lastName: data.data.lastName,
-                    address: data.data.address,
-                    phoneNumber: data.data.phoneNumber,
-                    gender: data.data.gender,
-                    roleId: data.data.roleId,
-                    positionId: data.data.positionId,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    address: data.address,
+                    phoneNumber: data.phoneNumber,
+                    gender: data.gender,
+                    roleId: data.roleId,
+                    positionId: data.positionId,
+                    image: data.avatar,
                 });
                 resolve({
                     errCode: 0,
@@ -163,6 +163,12 @@ let updateUserData = (data) => {
                 user.lastName = data.lastName;
                 user.address = data.address;
                 user.phoneNumber = data.phoneNumber;
+                user.roleId = data.role;
+                user.positionId = data.position;
+                user.gender = data.gender;
+                if (data.avatar) {
+                    user.image = data.avatar;
+                }
                 await user.save();
                 resolve({
                     errCode: 0,
