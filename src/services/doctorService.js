@@ -177,15 +177,9 @@ let bulkCreateSchedule = (data) => {
                     raw: true,
                 });
 
-                if (existing && existing.length > 0) {
-                    existing = existing.map((item) => {
-                        item.date = new Date(item.date).getTime();
-                        return item;
-                    });
-                }
                 // compare difference
                 let toCreate = _.differenceWith(schedule, existing, (a, b) => {
-                    return a.timeType === b.timeType && a.date === b.date;
+                    return a.timeType === b.timeType && +a.date === +b.date;
                 });
                 // create data
                 if (toCreate && toCreate.length > 0) {
@@ -203,10 +197,47 @@ let bulkCreateSchedule = (data) => {
     });
 };
 
+let getScheduleByDate = (doctorId, date) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if ((!doctorId, !date)) {
+                resolve({
+                    errCode: 1,
+                    errMess: 'Missing required parameters!!',
+                });
+            } else {
+                let data = await db.Schedule.findAll({
+                    where: { doctorId, date },
+                    include: [
+                        {
+                            model: db.Allcode,
+                            as: 'timeTypeData',
+                            attributes: ['valueEn', 'valueVi'],
+                        },
+                    ],
+                    raw: false,
+                    nest: true,
+                });
+
+                if (!data) {
+                    return (data = []);
+                }
+                resolve({
+                    errCode: 0,
+                    data,
+                });
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
 module.exports = {
     getTopDoctorHome,
     getAllDoctor,
     saveDetailInfoDoctor,
     getDetailDoctorById,
     bulkCreateSchedule,
+    getScheduleByDate,
 };
