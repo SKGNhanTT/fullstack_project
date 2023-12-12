@@ -66,13 +66,20 @@ let saveDetailInfoDoctor = ({ data }) => {
                 !data.doctorId ||
                 !data.contentHTML ||
                 !data.contentMarkdown ||
-                !data.action
+                !data.action ||
+                !data.selectedPrice ||
+                !data.selectedPayment ||
+                !data.selectedProvince ||
+                !data.nameClinic ||
+                !data.addressClinic ||
+                !data.note
             ) {
                 resolve({
                     errCode: 1,
                     errMess: 'Missing parameter!',
                 });
             } else {
+                // upsert to Markdown
                 if (data.action === 'CREATE') {
                     await db.Markdown.create({
                         contentHTML: data.contentHTML,
@@ -93,6 +100,33 @@ let saveDetailInfoDoctor = ({ data }) => {
                         await markdown.save();
                     }
                 }
+                // upsearch to doctor-infor table
+                let doctorInfor = await db.Doctor_Infor.findOne({
+                    where: { doctorId: data.doctorId },
+                    raw: false,
+                });
+
+                if (doctorInfor) {
+                    doctorInfor.doctorId = data.doctorId;
+                    doctorInfor.priceId = data.selectedPrice;
+                    doctorInfor.provinceId = data.selectedProvince;
+                    doctorInfor.paymentId = data.selectedPayment;
+                    doctorInfor.addressClinic = data.addressClinic;
+                    doctorInfor.nameClinic = data.nameClinic;
+                    doctorInfor.note = data.note;
+                    await doctorInfor.save();
+                } else {
+                    await db.Doctor_Infor.create({
+                        doctorId: data.doctorId,
+                        priceId: data.selectedPrice,
+                        provinceId: data.selectedProvince,
+                        paymentId: data.selectedPayment,
+                        addressClinic: data.addressClinic,
+                        nameClinic: data.nameClinic,
+                        note: data.note,
+                    });
+                }
+
                 resolve({
                     errCode: 0,
                     errMess: 'Save info doctor success!!',
