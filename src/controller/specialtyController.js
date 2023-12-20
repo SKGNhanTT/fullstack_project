@@ -1,0 +1,17 @@
+import specialtyService from '../services/specialtyService';
+
+let createSpecialty = async (req, res) => {
+    try {
+        let response = await specialtyService.createSpecialty(req.body);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(200).json({
+            errCode: 1,
+            errMess: 'Error from server!',
+        });
+    }
+};
+
+module.exports = {
+    createSpecialty,
+};
