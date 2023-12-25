@@ -15,7 +15,9 @@ let postBookAppointment = (data) => {
                 !data.doctorId ||
                 !data.timeType ||
                 !data.date ||
-                !data.fullName
+                !data.fullName ||
+                !data.selectedGender ||
+                !data.address
             ) {
                 resolve({
                     errCode: 1,
@@ -23,27 +25,28 @@ let postBookAppointment = (data) => {
                 });
             } else {
                 let token = uuidv4();
-                await emailService.sendSimpleEmail({
-                    receiverEmail: data.email,
-                    patientName: data.fullName,
-                    time: data.timeString,
-                    doctorName: data.doctorName,
-                    language: data.language,
-                    redirectLink: builUrlEmail(data.doctorId, token),
-                });
+
                 // upsert patient
                 let user = await db.User.findOrCreate({
                     where: { email: data.email },
-                    default: {
+                    defaults: {
                         email: data.email,
                         roleId: 'R3',
+                        gender: data.selectedGender,
+                        address: data.address,
+                        firstName: data.fullName,
                     },
                 });
 
                 // create a booking record
                 if (user && user[0]) {
-                    await db.Booking.findOrCreate({
-                        where: { patientId: user[0].id },
+                    let res = await db.Booking.findOrCreate({
+                        where: {
+                            // patientId: user[0].id,
+                            statusId: 'S1',
+                            date: data.date,
+                            timeType: data.timeType,
+                        },
                         defaults: {
                             statusId: 'S1',
                             patientId: user[0].id,
@@ -53,6 +56,21 @@ let postBookAppointment = (data) => {
                             token: token,
                         },
                     });
+                    if (!res[1]) {
+                        resolve({
+                            errCode: 3,
+                            errMess: 'Save failded',
+                        });
+                    } else {
+                        await emailService.sendSimpleEmail({
+                            receiverEmail: data.email,
+                            patientName: data.fullName,
+                            time: data.timeString,
+                            doctorName: data.doctorName,
+                            language: data.language,
+                            redirectLink: builUrlEmail(data.doctorId, token),
+                        });
+                    }
                 }
 
                 resolve({

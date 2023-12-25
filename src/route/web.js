@@ -51,17 +51,19 @@ let initWebRoutes = (app) => {
         '/api/get-profile-doctor-by-id',
         doctorController.getProfileDoctorById
     );
-
+    router.get(
+        '/api/get-list-patient-for-doctor',
+        doctorController.getListPatientForDoctor
+    );
+    // ---------------------------------------------------------
     router.post(
         '/api/patient-book-appointment',
         patientController.postBookAppointment
     );
-
     router.post(
         '/api/verify-book-appointment',
         patientController.postVerifyBookAppointment
     );
-
     router.post(
         '/api/create-new-specialty',
         specialtyController.createSpecialty
@@ -71,6 +73,8 @@ let initWebRoutes = (app) => {
         '/api/get-detail-specialty-by-id',
         specialtyController.getDetailSpecialtyById
     );
+
+    // ---------------------------------------------------------
 
     router.post('/api/create-new-clinic', clinicController.createClinic);
     router.get('/api/get-all-clinic', clinicController.getAllClinic);
