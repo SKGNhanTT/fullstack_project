@@ -63,15 +63,18 @@ let getAllDoctor = () => {
 let checkRequiredFields = (inputData) => {
     let arr = [
         'doctorId',
-        'contentHTML',
-        'contentMarkdown',
+        'contentHTMLEn',
+        'contentHTMLVi',
+        'contentMarkdownEn',
+        'contentMarkdownVi',
         'action',
         'selectedPrice',
         'selectedPayment',
         'selectedProvince',
-        'nameClinic',
+        // 'nameClinic',
         'addressClinic',
-        'note',
+        'noteEn',
+        'noteVi',
         'specialtyId',
     ];
     let isValid = true;
@@ -102,9 +105,12 @@ let saveDetailInfoDoctor = ({ data }) => {
                 // upsert to Markdown
                 if (data.action === 'CREATE') {
                     await db.Markdown.create({
-                        contentHTML: data.contentHTML,
-                        contentMarkdown: data.contentMarkdown,
-                        description: data.description,
+                        contentHTMLEn: data.contentHTMLEn,
+                        contentHTMLVi: data.contentHTMLVi,
+                        contentMarkdownEn: data.contentMarkdownEn,
+                        contentMarkdownVi: data.contentMarkdownVi,
+                        descriptionEn: data.descriptionEn,
+                        descriptionVi: data.descriptionVi,
                         doctorId: data.doctorId,
                     });
                 } else if (data.action === 'EDIT') {
@@ -113,9 +119,12 @@ let saveDetailInfoDoctor = ({ data }) => {
                         raw: false,
                     });
                     if (markdown) {
-                        markdown.contentHTML = data.contentHTML;
-                        markdown.contentMarkdown = data.contentMarkdown;
-                        markdown.description = data.description;
+                        markdown.contentHTMLEn = data.contentHTMLEn;
+                        markdown.contentHTMLVi = data.contentHTMLVi;
+                        markdown.contentMarkdownEn = data.contentMarkdownEn;
+                        markdown.contentMarkdownVi = data.contentMarkdownVi;
+                        markdown.descriptionEn = data.descriptionEn;
+                        markdown.descriptionVi = data.descriptionVi;
 
                         await markdown.save();
                     }
@@ -133,7 +142,8 @@ let saveDetailInfoDoctor = ({ data }) => {
                     doctorInfor.paymentId = data.selectedPayment;
                     doctorInfor.addressClinic = data.addressClinic;
                     doctorInfor.nameClinic = data.nameClinic;
-                    doctorInfor.note = data.note;
+                    doctorInfor.noteEn = data.noteEn;
+                    doctorInfor.noteVi = data.noteVi;
                     doctorInfor.specialtyId = data.specialtyId;
                     doctorInfor.clinicId = data.clinicId;
                     await doctorInfor.save();
@@ -145,7 +155,8 @@ let saveDetailInfoDoctor = ({ data }) => {
                         paymentId: data.selectedPayment,
                         addressClinic: data.addressClinic,
                         nameClinic: data.nameClinic,
-                        note: data.note,
+                        noteEn: data.noteEn,
+                        noteVi: data.noteVi,
                         specialtyId: data.specialtyId,
                         clinicId: data.clinicId,
                     });
@@ -180,9 +191,12 @@ let getDetailDoctorById = (id) => {
                         {
                             model: db.Markdown,
                             attributes: [
-                                'description',
-                                'contentHTML',
-                                'contentMarkdown',
+                                'descriptionEn',
+                                'descriptionVi',
+                                'contentHTMLEn',
+                                'contentHTMLVi',
+                                'contentMarkdownEn',
+                                'contentMarkdownVi',
                             ],
                         },
                         {
@@ -384,9 +398,12 @@ let getProfileDoctorById = (doctorId) => {
                         {
                             model: db.Markdown,
                             attributes: [
-                                'description',
-                                'contentHTML',
-                                'contentMarkdown',
+                                'descriptionEn',
+                                'descriptionVi',
+                                'contentHTMLEn',
+                                'contentHTMLVi',
+                                'contentMarkdownEn',
+                                'contentMarkdownVi',
                             ],
                         },
                         {

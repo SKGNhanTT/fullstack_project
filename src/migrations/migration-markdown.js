@@ -8,15 +8,27 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            contentHTML: {
+            contentHTMLEn: {
                 allowNull: false,
                 type: Sequelize.TEXT('long'),
             },
-            contentMarkdown: {
+            contentHTMLVi: {
                 allowNull: false,
                 type: Sequelize.TEXT('long'),
             },
-            description: {
+            contentMarkdownEn: {
+                allowNull: false,
+                type: Sequelize.TEXT('long'),
+            },
+            contentMarkdownVi: {
+                allowNull: false,
+                type: Sequelize.TEXT('long'),
+            },
+            descriptionEn: {
+                allowNull: true,
+                type: Sequelize.TEXT('long'),
+            },
+            descriptionVi: {
                 allowNull: true,
                 type: Sequelize.TEXT('long'),
             },

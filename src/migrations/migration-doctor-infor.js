@@ -38,7 +38,10 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            note: {
+            noteEn: {
+                type: Sequelize.STRING,
+            },
+            noteVi: {
                 type: Sequelize.STRING,
             },
             count: {
