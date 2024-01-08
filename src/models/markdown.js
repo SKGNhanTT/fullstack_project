@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
             descriptionEn: DataTypes.TEXT('long'),
             descriptionVi: DataTypes.TEXT('long'),
             doctorId: DataTypes.INTEGER,
-            specialtyId: DataTypes.INTEGER,
+            specialtyName: DataTypes.TEXT('long'),
             clinicId: DataTypes.INTEGER,
         },
         {

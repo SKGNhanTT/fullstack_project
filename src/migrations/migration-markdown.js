@@ -36,9 +36,9 @@ module.exports = {
                 allowNull: true,
                 type: Sequelize.INTEGER,
             },
-            specialtyId: {
+            specialtyName: {
                 allowNull: true,
-                type: Sequelize.INTEGER,
+                type: Sequelize.TEXT('long'),
             },
             clinicId: {
                 allowNull: true,

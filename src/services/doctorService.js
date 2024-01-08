@@ -26,6 +26,10 @@ let getTopDoctorHome = (limit) => {
                         as: 'genderData',
                         attributes: ['valueEn', 'valueVi'],
                     },
+                    {
+                        model: db.Markdown,
+                        attributes: ['specialtyName'],
+                    },
                 ],
                 raw: true,
                 nest: true,
@@ -94,6 +98,7 @@ let checkRequiredFields = (inputData) => {
 
 let saveDetailInfoDoctor = ({ data }) => {
     return new Promise(async (resolve, reject) => {
+        console.log(data);
         try {
             let checkObj = checkRequiredFields(data);
             if (!checkObj.isValid) {
@@ -112,6 +117,7 @@ let saveDetailInfoDoctor = ({ data }) => {
                         descriptionEn: data.descriptionEn,
                         descriptionVi: data.descriptionVi,
                         doctorId: data.doctorId,
+                        specialtyName: data.specialtyName,
                     });
                 } else if (data.action === 'EDIT') {
                     let markdown = await db.Markdown.findOne({
@@ -197,6 +203,7 @@ let getDetailDoctorById = (id) => {
                                 'contentHTMLVi',
                                 'contentMarkdownEn',
                                 'contentMarkdownVi',
+                                'specialtyName',
                             ],
                         },
                         {
