@@ -4,10 +4,13 @@ let createSpecialty = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (
-                !data.name ||
+                !data.nameEn ||
+                !data.nameVi ||
                 !data.imageBase64 ||
-                !data.descriptionHTML ||
-                !data.descriptionMarkdown
+                !data.descriptionHTMLEn ||
+                !data.descriptionHTMLVi ||
+                !data.descriptionMarkdownEn ||
+                !data.descriptionMarkdownVi
             ) {
                 resolve({
                     errCode: 1,
@@ -15,10 +18,15 @@ let createSpecialty = (data) => {
                 });
             } else {
                 await db.Specialty.create({
-                    name: data.name,
+                    nameEn: data.nameEn,
+                    nameVi: data.nameVi,
+                    addressEn: data.addressEn,
+                    addressVi: data.addressVi,
                     image: data.imageBase64,
-                    descriptionHTML: data.descriptionHTML,
-                    descriptionMarkdown: data.descriptionMarkdown,
+                    descriptionHTMLEn: data.descriptionHTMLEn,
+                    descriptionHTMLVi: data.descriptionHTMLVi,
+                    descriptionMarkdownEn: data.descriptionMarkdownEn,
+                    descriptionMarkdownVi: data.descriptionMarkdownVi,
                 });
                 resolve({
                     errCode: 0,
@@ -66,9 +74,12 @@ let getDetailSpecialtyById = (id, location) => {
                 let data = await db.Specialty.findOne({
                     where: { id },
                     attributes: [
-                        'name',
-                        'descriptionHTML',
-                        'descriptionMarkdown',
+                        'nameEn',
+                        'nameVi',
+                        'descriptionHTMLEn',
+                        'descriptionHTMLVi',
+                        'descriptionMarkdownEn',
+                        'descriptionMarkdownVi',
                     ],
                 });
                 if (data) {

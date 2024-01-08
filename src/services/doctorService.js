@@ -28,7 +28,7 @@ let getTopDoctorHome = (limit) => {
                     },
                     {
                         model: db.Markdown,
-                        attributes: ['specialtyName'],
+                        attributes: ['specialtyNameEn', 'specialtyNameVi'],
                     },
                 ],
                 raw: true,
@@ -79,7 +79,6 @@ let checkRequiredFields = (inputData) => {
         'addressClinic',
         'noteEn',
         'noteVi',
-        'specialtyId',
     ];
     let isValid = true;
     let element = '';
@@ -117,7 +116,12 @@ let saveDetailInfoDoctor = ({ data }) => {
                         descriptionEn: data.descriptionEn,
                         descriptionVi: data.descriptionVi,
                         doctorId: data.doctorId,
-                        specialtyName: data.specialtyName,
+                        specialtyNameEn: data.specialtyNameEn
+                            ? data.specialtyNameEn
+                            : '',
+                        specialtyNameVi: data.specialtyNameVi
+                            ? data.specialtyNameVi
+                            : '',
                     });
                 } else if (data.action === 'EDIT') {
                     let markdown = await db.Markdown.findOne({
@@ -131,6 +135,12 @@ let saveDetailInfoDoctor = ({ data }) => {
                         markdown.contentMarkdownVi = data.contentMarkdownVi;
                         markdown.descriptionEn = data.descriptionEn;
                         markdown.descriptionVi = data.descriptionVi;
+                        markdown.specialtyNameVi = data.specialtyNameVi
+                            ? data.specialtyNameVi
+                            : '';
+                        markdown.specialtyNameEn = data.specialtyNameEn
+                            ? data.specialtyNameEn
+                            : '';
 
                         await markdown.save();
                     }
@@ -203,7 +213,8 @@ let getDetailDoctorById = (id) => {
                                 'contentHTMLVi',
                                 'contentMarkdownEn',
                                 'contentMarkdownVi',
-                                'specialtyName',
+                                'specialtyNameEn',
+                                'specialtyNameVi',
                             ],
                         },
                         {

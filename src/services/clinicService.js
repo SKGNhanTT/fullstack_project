@@ -4,10 +4,14 @@ let createClinic = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (
-                !data.name ||
-                !data.address ||
-                !data.descriptionHTML ||
-                !data.descriptionMarkdown ||
+                !data.nameEn ||
+                !data.nameVi ||
+                !data.addressEn ||
+                !data.addressVi ||
+                !data.descriptionHTMLEn ||
+                !data.descriptionHTMLVi ||
+                !data.descriptionMarkdownEn ||
+                !data.descriptionMarkdownVi ||
                 !data.imageBase64
             ) {
                 resolve({
@@ -16,11 +20,14 @@ let createClinic = (data) => {
                 });
             } else {
                 let res = await db.Clinic.create({
-                    name: data.name,
-                    address: data.address,
+                    nameEn: data.nameEn,
+                    nameVi: data.nameVi,
+                    addressEn: data.addressEn,
                     image: data.imageBase64,
-                    descriptionHTML: data.descriptionHTML,
-                    descriptionMarkdown: data.descriptionMarkdown,
+                    descriptionHTMLEn: data.descriptionHTMLEn,
+                    descriptionHTMLVi: data.descriptionHTMLVi,
+                    descriptionMarkdownEn: data.descriptionMarkdownEn,
+                    descriptionMarkdownVi: data.descriptionMarkdownVi,
                 });
                 if (res) {
                     resolve({
@@ -70,10 +77,14 @@ let getDetailClinicById = (id) => {
                 let data = await db.Clinic.findOne({
                     where: { id },
                     attributes: [
-                        'descriptionHTML',
-                        'descriptionMarkdown',
-                        'name',
-                        'address',
+                        'descriptionHTMLEn',
+                        'descriptionHTMLVi',
+                        'descriptionMarkdownEn',
+                        'descriptionMarkdownVi',
+                        'nameEn',
+                        'nameVi',
+                        'addressEn',
+                        'addressVi',
                     ],
                 });
                 if (data) {

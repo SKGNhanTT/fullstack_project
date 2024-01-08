@@ -8,16 +8,28 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            name: {
+            nameEn: {
                 type: Sequelize.STRING,
             },
-            address: {
+            nameVi: {
                 type: Sequelize.STRING,
             },
-            descriptionHTML: {
+            addressEn: {
+                type: Sequelize.STRING,
+            },
+            addressVi: {
+                type: Sequelize.STRING,
+            },
+            descriptionHTMLEn: {
                 type: Sequelize.TEXT,
             },
-            descriptionMarkdown: {
+            descriptionHTMLVi: {
+                type: Sequelize.TEXT,
+            },
+            descriptionMarkdownEn: {
+                type: Sequelize.TEXT,
+            },
+            descriptionMarkdownVi: {
                 type: Sequelize.TEXT,
             },
             image: {

@@ -36,7 +36,11 @@ module.exports = {
                 allowNull: true,
                 type: Sequelize.INTEGER,
             },
-            specialtyName: {
+            specialtyNameEn: {
+                allowNull: true,
+                type: Sequelize.TEXT('long'),
+            },
+            specialtyNameVi: {
                 allowNull: true,
                 type: Sequelize.TEXT('long'),
             },
