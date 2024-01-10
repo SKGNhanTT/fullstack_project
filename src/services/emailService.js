@@ -17,9 +17,9 @@ let sendSimpleEmail = async (dataSend) => {
 
     // send mail with defined transport object
     const info = await transporter.sendMail({
-        from: '"Fred Foo 👻" <foo@example.com>', // sender address
+        from: '"BookingHealthCare" <foo@example.com>', // sender address
         to: dataSend.receiverEmail, // list of receivers
-        subject: 'Thông tin đặt lịch khám bệnh', // Subject line
+        subject: 'Information on scheduling medical examinations', // Subject line
         html: getBodyHTMLEmail(dataSend),
     });
 };
@@ -28,24 +28,24 @@ let getBodyHTMLEmail = (dataSend) => {
     let result = '';
     if (dataSend.language === 'vi') {
         result = `
-        <h3>Xin chào ${dataSend.patientName}</h3>
-        <p>Cảm ơn bạn đã đặt lịch khám bệnh online</p>
-        <p>Thông tin đặt lịch khám bệnh</p>
+        <h3>Xin chào ${dataSend.patientName}!</h3>
+        <p>Cảm ơn bạn đã đặt lịch khám bệnh online tại Booking Health Care</p>
+        <p>Dưới đây là thông tin đặt lịch khám bệnh</p>
         <div><b>Thời gian: ${dataSend.time}</b></div>
         <div><b>Bác sĩ: ${dataSend.doctorName}</b></div>
-        <p>Please click this link to accept booking. <a href=${dataSend.redirectLink}>Click here</a></p>
+        <p>Vui lòng nhấn vào đây để hoàn thành lịch hẹn. <a href=${dataSend.redirectLink}>Nhấn vào đây</a></p>
         <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi</p>
         `;
     }
     if (dataSend.language === 'en') {
         result = `
-        <h3>Dear ${dataSend.patientName}</h3>
-        <p>Thank you for booking your medical examination appointment online</p>
-        <p>Information on scheduling medical examinations</p>
+        <h3>Dear ${dataSend.patientName}!</h3>
+        <p>Thank you for scheduling an online medical appointment with Booking Health Care.</p>
+        <p>Below is the information for scheduling a medical appointment.</p>
         <div><b>Time: ${dataSend.time}</b></div>
         <div><b>Doctor: ${dataSend.doctorName}</b></div>
-        <p>Please click this link to accept booking. <a href=${dataSend.redirectLink}>Click here</a></p>
-        <p>Thank you for using our service</p>
+        <p>Please click here to complete the appointment. <a href=${dataSend.redirectLink}>Click here</a></p>
+        <p>Thank you for using our services.</p>
         `;
     }
     return result;
@@ -67,9 +67,9 @@ let sendAttachments = async (dataSend) => {
 
     // send mail with defined transport object
     const info = await transporter.sendMail({
-        from: '"Fred Foo 👻" <foo@example.com>', // sender address
+        from: '"BookingHealthCare" <foo@example.com>', // sender address
         to: dataSend.email, // list of receivers
-        subject: 'Kết quả đặt lịch khám bệnh', // Subject line
+        subject: 'Result of medical examination appointment', // Subject line
         html: getBodyHTMLEmailRemedy(dataSend),
         attachments: {
             filename: `remedy-${
@@ -85,19 +85,18 @@ let getBodyHTMLEmailRemedy = (dataSend) => {
     let result = '';
     if (dataSend.language === 'vi') {
         result = `
-        <h3>Xin chào ${dataSend.patientName}</h3>
-        <p>Cảm ơn bạn đã tham gia khám bệnh online</p>
+        <h3>Xin chào ${dataSend.patientName}!</h3>
+        <p>Cảm ơn bạn đã tham gia khám bệnh tại Booking Health Care</p>
         <p>Thông tin đơn thuốc được gửi trong đính kèm</p>
         <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi</p>
         `;
     }
     if (dataSend.language === 'en') {
         result = `
-        <h3>Dear ${dataSend.patientName}</h3>
-        <p>Thank you for booking your medical examination appointment online</p>
-        <p>Information on scheduling medical examinations</p>
-        
-        <p>Thank you for using our service</p>
+        <h3>Dear ${dataSend.patientName}!</h3>
+        <p>Thank you for participating in the health examination at Booking Health Care.</p>
+        <p>The prescription information has been sent as an attachment.</p>
+        <p>Thank you for using our services.</p>
         `;
     }
     return result;
